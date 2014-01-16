@@ -3,6 +3,8 @@
 // Code for serial started from https://github.com/Illutron/AdvancedTouchSensing
 
 import processing.serial.*;
+
+boolean DEBUG = true;
 int SerialPortNumber=2;
 int PortSelected=2;
 int BAUD = 9600;
@@ -36,10 +38,14 @@ void setup(){
 
 void draw() {
 
-  println( "#### Sensor Data" );
-  for( int val: sensorData ){
-    print( ", " + Integer.toString(val) );
+  if (DEBUG) {
+    println( "#### Sensor Data" );
+    for( int val: sensorData ){
+      print( ", " + Integer.toString(val) );
+    }
   }
+
+
 
 }
 
@@ -89,4 +95,8 @@ void updateSensors(String[] data) {
     }
   }
 
+}
+
+boolean objectDetected( int data ) { 
+  return false;
 }

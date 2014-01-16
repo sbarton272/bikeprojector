@@ -69,10 +69,12 @@ void draw() {
   image(camera, 0, 0);
 
   // distance based response
-  if ( objectDetected(sensorData) ) {
-    println("Object detected");
+  
+  if ( objectDanger(sensorData) ) {
+    println("Object danger");
     
-    //detectionResponse();
+    //dangerResponse();
+    dangerSiren.play();
 
   } else if ( objectCaution(sensorData) ) {
     println("Object caution");
@@ -80,16 +82,15 @@ void draw() {
     //cautionResponse();
     warningBeep.play();
 
-  } else if ( objectDanger(sensorData) ) {
-    println("Object danger");
+  } else if ( objectDetected(sensorData) ) {
+    println("Object detected");
     
-    //dangerResponse();
-    dangerSiren.play();
+    //detectionResponse();
 
   } else {
     println("Object NOT detected");
     
-    regularResponse();
+    // regularResponse();
   }
 
 // Proximity visualization

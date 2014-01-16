@@ -14,9 +14,10 @@ int BAUD = 9600;
  Global variables
  =================================================================================*/
 
-int SENSER_THRESHOLD = 100;
-int sensorData = 0;
+int SENSER_MAX = 500;
 int SELECTED_CAMERA = 115;
+
+int sensorData = 0;
 
 /*   =================================================================================       
  Local variables
@@ -97,13 +98,17 @@ void SerialPortSetup() {
   println( Serial.list() );
 
   if( PortSelected < Serial.list().length ) {
+    
     String portName = Serial.list()[PortSelected];
     arduinoPort = new Serial(this, portName, BAUD);
     delay(50);
     arduinoPort.clear(); 
     arduinoPort.bufferUntil('\n');
+  
   } else {
+
     println( "No serial :(" );
+  
   }
 }
 
@@ -128,10 +133,18 @@ void serialEvent(Serial arduinoPort) {
   }
 }
 
-/* ============== Sensor Value Methods ========================= */
+/* ============== Sensor Distance Dectection ========================= */
 
 boolean objectDetected( int data ) { 
-  return data < SENSER_THRESHOLD;
+  return data < SENSER_MAXIMUM;
+}
+
+boolean objectCaution( int data ) { 
+  return data < (SENSER_MAXIMUM/2);
+}
+
+boolean objectDanger( int data ) { 
+  return data < (SENSER_MAXIMUM/6);
 }
 
 /*   =================================================================================       

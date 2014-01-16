@@ -13,7 +13,7 @@ import ddf.minim.*;
 boolean DEBUG = true;
 int BAUD = 9600;
 int SENSOR_MAX = 500;
-int SELECTED_CAMERA = 115;
+int SELECTED_CAMERA = 0;
 int SERIAL_PORT_NUMBER=2;
 int PORT_SELECTED=0;
 int AUDIO_BUF_SIZE = 512;
@@ -109,13 +109,14 @@ void draw() {
 pushStyle();
 pushMatrix();
   arcValue += ((float)sensorData-arcValue) * EASING;
+  float arcSize = map(arcValue, 0, SENSOR_MAX, 180, 0);
   ellipseMode(CENTER);
   noFill();
   stroke(255,0,0);
   strokeWeight(20);
   strokeCap(SQUARE);
   translate(width/2, height/2);
-  arc(0,0,700,700, PI*.75-radians(arcValue), PI*.75+radians(arcValue));
+  arc(0,0,700,700, PI*.75-radians(arcSize), PI*.75+radians(arcSize));
 popMatrix();
 popStyle();
 

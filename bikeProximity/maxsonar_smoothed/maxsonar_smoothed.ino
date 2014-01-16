@@ -18,7 +18,7 @@ void setup() {
    
   Serial.begin(9600);
     // initialize all the readings to 0: 
-    Serial.println("initializing...");
+    //Serial.println("initializing...");
    
    
       for (int thisReading = 0; thisReading < numReadings; thisReading++) 

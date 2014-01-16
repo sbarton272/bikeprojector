@@ -3,32 +3,47 @@
 // Code for serial started from https://github.com/Illutron/AdvancedTouchSensing
 
 import processing.serial.*;
+import processing.video.*;
 
-boolean DEBUG = true;
+boolean DEBUG = false;
 int SerialPortNumber=2;
-int PortSelected=2;
+int PortSelected=0;
 int BAUD = 9600;
 
 /*   =================================================================================       
  Global variables
  =================================================================================*/
 
-public static final int NUM_SENSORS = 2;
-int[NUM_SENSORS] sensorData;
+int THRES = 100;
+int sensorData = 0;
 
 /*   =================================================================================       
  Local variables
  =================================================================================*/
 
 Serial arduinoPort;                                        // The serial port object
+Capture camera;
 
 /*   =================================================================================       
  Setup
  =================================================================================*/
 
 void setup(){
+  size(640, 480);
 
   SerialPortSetup();
+
+  String[] cameras = Capture.list();
+  
+  if (cameras.length == 0) {
+    println("There are no cameras available for capture.");
+    exit();
+  } else {
+    println("Available cameras:");
+    for (int i = 0; i < cameras.length; i++) {
+      println(cameras[i]);
+    }
+  } 
 
 }
 
@@ -38,14 +53,13 @@ void setup(){
 
 void draw() {
 
+  arduinoPort.write("");
+  
   if (DEBUG) {
-    println( "#### Sensor Data" );
-    for( int val: sensorData ){
-      print( ", " + Integer.toString(val) );
-    }
+    print( "#### Sensor Data" );
+    print( ", " + Integer.toString(sensorData) );
+    println();
   }
-
-
 
 }
 
@@ -57,11 +71,15 @@ void SerialPortSetup() {
 
   println( Serial.list() );
 
-  String portName = Serial.list()[PortSelected];
-  arduinoPort = new Serial(this, portName, BAUD);
-  delay(50);
-  arduinoPort.clear(); 
-  arduinoPort.buffer(20);
+  if( PortSelected < Serial.list().length ) {
+    String portName = Serial.list()[PortSelected];
+    arduinoPort = new Serial(this, portName, BAUD);
+    delay(50);
+    arduinoPort.clear(); 
+    arduinoPort.bufferUntil('\n');
+  } else {
+    println( "No serial :(" );
+  }
 }
 
 /* ============================================================    
@@ -73,12 +91,12 @@ void serialEvent(Serial arduinoPort) {
 
   while (arduinoPort.available() > 0)
   {
-    String inBuffer = myPort.readString();   
+    String inBuffer = arduinoPort.readString();   
   
-    if (inBuffer != null) {
+    if (inBuffer != null && !inBuffer.equals("") ) {
       println(inBuffer);
   
-      updateSensors(splitTokens(inBuffer, ", "));
+      sensorData = Integer.parseInt(inBuffer);
 
     }
   }
@@ -86,17 +104,6 @@ void serialEvent(Serial arduinoPort) {
 
 /* ============== Sensor Value Methods ========================= */
 
-// destructive
-void updateSensors(String[] data) {
-
-  for( int i = 0; i < NUM_SENSORS; i++ ){
-    if( i < data.size() ) {
-      sensorData[i] = Integer.parseIntdata(data[i]);
-    }
-  }
-
-}
-
 boolean objectDetected( int data ) { 
-  return false;
+  return data < THRES;
 }

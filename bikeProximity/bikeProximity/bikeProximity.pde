@@ -10,7 +10,7 @@ import ddf.minim.*;
  Constants
  =================================================================================*/
 
-boolean DEBUG = false;
+boolean DEBUG = true;
 int BAUD = 9600;
 int SENSOR_MAX = 500;
 int SELECTED_CAMERA = 115;
@@ -45,6 +45,11 @@ void setup(){
   cameraSetup();
   audioSetup();
 
+  dangerSiren.play();
+  warningBeep.play();
+  dangerSiren.loop();
+  warningBeep.loop();
+
 }
 
 /*   =================================================================================       
@@ -74,23 +79,30 @@ void draw() {
     println("Object danger");
     
     //dangerResponse();
-    dangerSiren.play();
+    dangerSiren.unmute();
+    warningBeep.mute();
 
   } else if ( objectCaution(sensorData) ) {
     println("Object caution");
     
     //cautionResponse();
-    warningBeep.play();
-
+    dangerSiren.mute();
+    warningBeep.unmute();
+    
   } else if ( objectDetected(sensorData) ) {
     println("Object detected");
     
     //detectionResponse();
+    dangerSiren.mute();
+    warningBeep.mute();
 
   } else {
     println("Object NOT detected");
     
     // regularResponse();
+    dangerSiren.mute();
+    warningBeep.mute();
+    
   }
 
 // Proximity visualization

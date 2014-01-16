@@ -58,31 +58,9 @@ void loop() {
     // calculate the average:
     averageA = totalA / numReadings;  
 
-//----------------------------------------------------
-//-----------------read and smooth sonarB-------------
-  // subtract the last reading:
-    totalB = totalB - readingsB[indexB];         
-    // read from the sensor:  
-    readingsB[indexB] = analogRead(sonarB);
-    // add the reading to the total:
-    totalB = totalB + readingsB[indexB];       
-    // advance to the next position in the array:  
-    indexB = indexB + 1;                    
-
-    // if we're at the end of the array...
-    if (indexB >= numReadings) 
-    {
-        // ...wrap around to the beginning: 
-        indexB = 0;                           
-    }
-
-    // calculate the average:
-    averageB = totalB / numReadings;  
     
-    
-    Serial.print(averageA);
-    Serial.print(", ");
-    Serial.println(averageB);
+
+    Serial.println(averageA);
     
   
 }    

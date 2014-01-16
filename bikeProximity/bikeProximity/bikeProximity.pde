@@ -3,6 +3,7 @@
 // Code for serial started from https://github.com/Illutron/AdvancedTouchSensing
 
 import processing.serial.*;
+import cc.arduino.*;
 import processing.video.*;
 import ddf.minim.*;
 
@@ -25,6 +26,7 @@ float EASING = 0.15;
  Global variables
  =================================================================================*/
 
+Arduino arduino;
 Serial arduinoPort;
 Capture camera;
 Minim minim;
@@ -40,8 +42,11 @@ float arcValue = 0;
 
 void setup(){
   size(960,720);
+  
+  println(Arduino.list());
+  arduino = new Arduino(this, Arduino.list()[0], 57600);
 
-  serialPortSetup();
+//  serialPortSetup();
   cameraSetup();
   audioSetup();
 
@@ -57,6 +62,9 @@ void setup(){
  =================================================================================*/
 
 void draw() {
+  // Arduino interface
+  sensorData = arduino.analogRead(0);
+  
   // Draw a black background on top of everything every frame. Acts as a clean slate
   background(0);
 
@@ -134,41 +142,41 @@ popStyle();
  Serial
  =================================================================================*/
 
-void serialPortSetup() {
+//void serialPortSetup() {
+//
+//  println( Serial.list() );
+//
+//  if( PORT_SELECTED < Serial.list().length ) {
+//    
+//    String portName = Serial.list()[PORT_SELECTED];
+//    arduinoPort = new Serial(this, portName, BAUD);
+//    delay(50);
+//    arduinoPort.clear(); 
+//    arduinoPort.bufferUntil('\n');
+//  
+//  } else {
+//
+//    println( "No serial :(" );
+//  
+//  }
+//}
 
-  println( Serial.list() );
 
-  if( PORT_SELECTED < Serial.list().length ) {
-    
-    String portName = Serial.list()[PORT_SELECTED];
-    arduinoPort = new Serial(this, portName, BAUD);
-    delay(50);
-    arduinoPort.clear(); 
-    arduinoPort.bufferUntil('\n');
-  
-  } else {
-
-    println( "No serial :(" );
-  
-  }
-}
-
-
-void serialEvent(Serial arduinoPort) {
-
-  while (arduinoPort.available() > 0)
-  {
-    String inBuffer = arduinoPort.readString();   
-  
-    if (inBuffer != null && inBuffer.matches("[0-9]+") && inBuffer.length() > 1) {
-
-      println(inBuffer);
-  
-      sensorData = Integer.parseInt(inBuffer);
-
-    }
-  }
-}
+//void serialEvent(Serial arduinoPort) {
+//
+//  while (arduinoPort.available() > 0)
+//  {
+//    String inBuffer = arduinoPort.readString();   
+//  
+//    if (inBuffer != null && inBuffer.matches("[0-9]+") && inBuffer.length() > 1) {
+//
+//      println(inBuffer);
+//  
+//      sensorData = Integer.parseInt(inBuffer);
+//
+//    }
+//  }
+//}
 
 /*   =================================================================================       
  Sensor

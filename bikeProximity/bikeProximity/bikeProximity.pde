@@ -14,8 +14,9 @@ int BAUD = 9600;
  Global variables
  =================================================================================*/
 
-int THRES = 100;
+int SENSER_THRESHOLD = 100;
 int sensorData = 0;
+int SELECTED_CAMERA = 115;
 
 /*   =================================================================================       
  Local variables
@@ -29,21 +30,10 @@ Capture camera;
  =================================================================================*/
 
 void setup(){
-  size(640, 480);
+  size(960,720);
 
   SerialPortSetup();
-
-  String[] cameras = Capture.list();
-  
-  if (cameras.length == 0) {
-    println("There are no cameras available for capture.");
-    exit();
-  } else {
-    println("Available cameras:");
-    for (int i = 0; i < cameras.length; i++) {
-      println(cameras[i]);
-    }
-  } 
+  CameraSetup();
 
 }
 
@@ -52,13 +42,48 @@ void setup(){
  =================================================================================*/
 
 void draw() {
+  // Draw a black background on top of everything every frame. Acts as a clean slate
+  background(0);
 
-  arduinoPort.write("A");
+  // Trigger senser read, if present
+  if( arduinoPort != null ) {
+    arduinoPort.write("A");
+  }
   
   if (DEBUG) {
     print( "#### Sensor Data" );
     print( ", " + Integer.toString(sensorData) );
     println();
+  }
+
+  // camera
+  if (camera.available() == true) {
+    camera.read();
+  }
+
+  image(camera, 0, 0);
+
+  // distance based response
+  if ( objectDetected(sensorData) ) {
+    println("Object detected");
+    
+    detectionResponse();
+
+  } else if ( objectCaution(sensorData) ) {
+    println("Object caution");
+    
+    cautionResponse();
+
+  } else if ( objectDanger(sensorData) ) {
+    println("Object danger");
+    
+    dangerResponse();
+
+  } else {
+    println("Object NOT detected");
+    
+    regularResponse();
+
   }
 
 }
@@ -106,5 +131,28 @@ void serialEvent(Serial arduinoPort) {
 /* ============== Sensor Value Methods ========================= */
 
 boolean objectDetected( int data ) { 
-  return data < THRES;
+  return data < SENSER_THRESHOLD;
+}
+
+/*   =================================================================================       
+ Camera
+ =================================================================================*/
+
+void CameraSetup() {
+
+  String[] cameras = Capture.list();
+  
+  if (cameras.length == 0) {
+    println("There are no cameras available for capture.");
+    exit();
+  } else {
+    println("Available cameras:");
+    for (int i = 0; i < cameras.length; i++) {
+      print(Integer.toString(i) + "\t");
+      println(cameras[i]);
+    }
+  } 
+
+  camera = new Capture(this, cameras[SELECTED_CAMERA]);
+  camera.start();   
 }

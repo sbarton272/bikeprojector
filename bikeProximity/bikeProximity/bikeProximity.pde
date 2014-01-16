@@ -16,7 +16,7 @@ int BAUD = 9600;
 
 int SENSER_THRESHOLD = 100;
 int sensorData = 0;
-int pSensorData = 0;
+float arcValue = 0;
 int SELECTED_CAMERA = 0;
 float EASING = 0.15;
 
@@ -86,12 +86,14 @@ void draw() {
 // Proximity visualization
 pushStyle();
 pushMatrix();
+  arcValue += ((float)sensorData-arcValue) * EASING;
   ellipseMode(CENTER);
   noFill();
   stroke(255,0,0);
   strokeWeight(20);
+  strokeCap(SQUARE);
   translate(width/2, height/2);
-  arc(0,0,700,700, PI*.75-radians(sensorData), PI*.75+radians(sensorData));
+  arc(0,0,700,700, PI*.75-radians(arcValue), PI*.75+radians(arcValue));
 popMatrix();
 popStyle();
 

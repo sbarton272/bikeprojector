@@ -19,6 +19,8 @@ void setup() {
   Serial.begin(9600);
     // initialize all the readings to 0: 
     Serial.println("initializing...");
+    
+    
    
    
       for (int thisReading = 0; thisReading < numReadings; thisReading++) 
@@ -39,6 +41,8 @@ void loop() {
 
 //----------------------------------------------------
 //-----------------read and smooth sonarA-------------
+  
+  
   // subtract the last reading:
     totalA = totalA - readingsA[indexA];         
     // read from the sensor:  
@@ -58,9 +62,11 @@ void loop() {
     // calculate the average:
     averageA = totalA / numReadings;  
 
-    
-
-    Serial.println(averageA);
+    if (Serial.available() > 0)
+    { 
+      Serial.read();
+      Serial.println(averageA);
+    }
     
   
 }    

@@ -4,27 +4,32 @@
 
 import processing.serial.*;
 import processing.video.*;
+import ddf.minim.*;
+
+/*   =================================================================================       
+ Constants
+ =================================================================================*/
 
 boolean DEBUG = false;
-int SerialPortNumber=2;
-int PortSelected=0;
 int BAUD = 9600;
+int SENSOR_MAX = 500;
+int SELECTED_CAMERA = 115;
+int SERIAL_PORT_NUMBER=2;
+int PORT_SELECTED=0;
+int AUDIO_BUF_SIZE = 512;
 
 /*   =================================================================================       
  Global variables
  =================================================================================*/
 
-int SENSER_MAX = 500;
-int SELECTED_CAMERA = 115;
+Serial arduinoPort;
+Capture camera;
+Minim minim;
+AudioPlayer dangerSiren, warningBeep;
+AudioInput input;
 
 int sensorData = 0;
 
-/*   =================================================================================       
- Local variables
- =================================================================================*/
-
-Serial arduinoPort;                                        // The serial port object
-Capture camera;
 
 /*   =================================================================================       
  Setup
@@ -33,8 +38,9 @@ Capture camera;
 void setup(){
   size(960,720);
 
-  SerialPortSetup();
-  CameraSetup();
+  serialPortSetup();
+  cameraSetup();
+  audioSetup();
 
 }
 
@@ -64,21 +70,26 @@ void draw() {
 
   image(camera, 0, 0);
 
+    dangerSiren.play();
+    delay(1000);
+
   // distance based response
   if ( objectDetected(sensorData) ) {
     println("Object detected");
     
-    detectionResponse();
+    //detectionResponse();
 
   } else if ( objectCaution(sensorData) ) {
     println("Object caution");
     
-    cautionResponse();
+    //cautionResponse();
+    warningBeep.play();
 
   } else if ( objectDanger(sensorData) ) {
     println("Object danger");
     
-    dangerResponse();
+    //dangerResponse();
+    dangerSiren.play();
 
   } else {
     println("Object NOT detected");
@@ -93,13 +104,13 @@ void draw() {
  Serial
  =================================================================================*/
 
-void SerialPortSetup() {
+void serialPortSetup() {
 
   println( Serial.list() );
 
-  if( PortSelected < Serial.list().length ) {
+  if( PORT_SELECTED < Serial.list().length ) {
     
-    String portName = Serial.list()[PortSelected];
+    String portName = Serial.list()[PORT_SELECTED];
     arduinoPort = new Serial(this, portName, BAUD);
     delay(50);
     arduinoPort.clear(); 
@@ -112,10 +123,6 @@ void SerialPortSetup() {
   }
 }
 
-/* ============================================================    
- serialEvent will be called when something is sent to the 
- serial port being used. 
- ============================================================   */
 
 void serialEvent(Serial arduinoPort) {
 
@@ -133,25 +140,27 @@ void serialEvent(Serial arduinoPort) {
   }
 }
 
-/* ============== Sensor Distance Dectection ========================= */
+/*   =================================================================================       
+ Sensor
+ =================================================================================*/
 
 boolean objectDetected( int data ) { 
-  return data < SENSER_MAXIMUM;
+  return data < SENSOR_MAX;
 }
 
 boolean objectCaution( int data ) { 
-  return data < (SENSER_MAXIMUM/2);
+  return data < (SENSOR_MAX/2);
 }
 
 boolean objectDanger( int data ) { 
-  return data < (SENSER_MAXIMUM/6);
+  return data < (SENSOR_MAX/6);
 }
 
 /*   =================================================================================       
  Camera
  =================================================================================*/
 
-void CameraSetup() {
+void cameraSetup() {
 
   String[] cameras = Capture.list();
   
@@ -168,4 +177,18 @@ void CameraSetup() {
 
   camera = new Capture(this, cameras[SELECTED_CAMERA]);
   camera.start();   
+}
+
+/*   =================================================================================       
+ Audio
+ =================================================================================*/
+
+
+void audioSetup() {
+  minim = new Minim(this);
+  dangerSiren = minim.loadFile("siren.mp3");
+  warningBeep = minim.loadFile("beep.mp3");
+
+  if ( dangerSiren == null || warningBeep == null ) println("Didn't get audio");
+
 }

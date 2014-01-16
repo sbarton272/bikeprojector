@@ -53,7 +53,8 @@ void setup(){
 
 void draw() {
 
-  arduinoPort.write("");
+  arduinoPort.write("A");
+  println("A");
   
   if (DEBUG) {
     print( "#### Sensor Data" );
@@ -93,7 +94,7 @@ void serialEvent(Serial arduinoPort) {
   {
     String inBuffer = arduinoPort.readString();   
   
-    if (inBuffer != null && !inBuffer.equals("") ) {
+    if (inBuffer != null && inBuffer.matches("[0-9]+") && inBuffer.length() > 1) {
       println(inBuffer);
   
       sensorData = Integer.parseInt(inBuffer);

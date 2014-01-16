@@ -17,6 +17,9 @@ int SELECTED_CAMERA = 115;
 int SERIAL_PORT_NUMBER=2;
 int PORT_SELECTED=0;
 int AUDIO_BUF_SIZE = 512;
+int SENSER_THRESHOLD = 100;
+
+float EASING = 0.15;
 
 /*   =================================================================================       
  Global variables
@@ -27,8 +30,8 @@ Capture camera;
 Minim minim;
 AudioPlayer dangerSiren, warningBeep;
 AudioInput input;
-
 int sensorData = 0;
+float arcValue = 0;
 
 
 /*   =================================================================================       
@@ -57,11 +60,6 @@ void draw() {
     arduinoPort.write("A");
   }
   
-  if (DEBUG) {
-    print( "#### Sensor Data" );
-    print( ", " + Integer.toString(sensorData) );
-    println();
-  }
 
   // camera
   if (camera.available() == true) {
@@ -69,9 +67,6 @@ void draw() {
   }
 
   image(camera, 0, 0);
-
-    dangerSiren.play();
-    delay(1000);
 
   // distance based response
   if ( objectDetected(sensorData) ) {
@@ -95,9 +90,27 @@ void draw() {
     println("Object NOT detected");
     
     regularResponse();
-
   }
 
+// Proximity visualization
+pushStyle();
+pushMatrix();
+  arcValue += ((float)sensorData-arcValue) * EASING;
+  ellipseMode(CENTER);
+  noFill();
+  stroke(255,0,0);
+  strokeWeight(20);
+  strokeCap(SQUARE);
+  translate(width/2, height/2);
+  arc(0,0,700,700, PI*.75-radians(arcValue), PI*.75+radians(arcValue));
+popMatrix();
+popStyle();
+
+  if (DEBUG) {
+    print( "#### Sensor Data" );
+    print( ", " + Integer.toString(sensorData) );
+    println();
+  }
 }
 
 /*   =================================================================================       
@@ -190,5 +203,13 @@ void audioSetup() {
   warningBeep = minim.loadFile("beep.mp3");
 
   if ( dangerSiren == null || warningBeep == null ) println("Didn't get audio");
+}
 
+void keyPressed() {
+  if (key == '+') {
+    sensorData += 25;
+  } else if (key == '-') {
+    sensorData -= 25;
+  }
+  
 }

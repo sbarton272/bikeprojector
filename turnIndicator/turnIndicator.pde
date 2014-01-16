@@ -3,9 +3,6 @@ import netP5.*;
 PImage arrow;
 // Global variables
 OscP5 oscP5;
-float rotatX, rotatY, rotatZ;
-
-
 //rotat[7] is the bike turn goodness (AKA left right)
 float[] rotat = new float[16];
 float centerThreshold;

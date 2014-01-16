@@ -12,8 +12,7 @@ import ddf.minim.*;
  =================================================================================*/
 
 boolean DEBUG = true;
-int BAUD = 9600;
-int SENSOR_MAX = 500;
+int SENSOR_MAX = 100;
 int SELECTED_CAMERA = 0;
 int SERIAL_PORT_NUMBER=2;
 int PORT_SELECTED=0;
@@ -21,6 +20,13 @@ int AUDIO_BUF_SIZE = 512;
 int SENSER_THRESHOLD = 100;
 
 float EASING = 0.15;
+
+
+int numReadings = 20;
+int[] readingsA = new int[numReadings];     // the readings from the analog input
+int indexA = 0;                  // the index of the current reading
+int totalA = 0;                  // the running total
+int averageA = 0;                // the averageA
 
 /*   =================================================================================       
  Global variables
@@ -62,9 +68,10 @@ void setup(){
  =================================================================================*/
 
 void draw() {
-  // Arduino interface
-  sensorData = arduino.analogRead(0);
-  println(sensorData);
+  // Arduino interface and smoothing
+  int sensorRaw = arduino.analogRead(0);
+  sensorData = averaged(sensorRaw);
+  
   
   // Draw a black background on top of everything every frame. Acts as a clean slate
   background(0);
@@ -129,50 +136,12 @@ popStyle();
 
   if (DEBUG) {
     print( "#### Sensor Data" );
-    print( ", " + Integer.toString(sensorData) );
+    print( ", " + Integer.toString(sensorRaw) );
+    print(", " + "Averaged Data: " + Integer.toString(sensorData));
     println();
   }
 }
 
-/*   =================================================================================       
- Serial
- =================================================================================*/
-
-//void serialPortSetup() {
-//
-//  println( Serial.list() );
-//
-//  if( PORT_SELECTED < Serial.list().length ) {
-//    
-//    String portName = Serial.list()[PORT_SELECTED];
-//    arduinoPort = new Serial(this, portName, BAUD);
-//    delay(50);
-//    arduinoPort.clear(); 
-//    arduinoPort.bufferUntil('\n');
-//  
-//  } else {
-//
-//    println( "No serial :(" );
-//  
-//  }
-//}
-
-
-//void serialEvent(Serial arduinoPort) {
-//
-//  while (arduinoPort.available() > 0)
-//  {
-//    String inBuffer = arduinoPort.readString();   
-//  
-//    if (inBuffer != null && inBuffer.matches("[0-9]+") && inBuffer.length() > 1) {
-//
-//      println(inBuffer);
-//  
-//      sensorData = Integer.parseInt(inBuffer);
-//
-//    }
-//  }
-//}
 
 /*   =================================================================================       
  Sensor
@@ -234,3 +203,31 @@ void keyPressed() {
   }
   
 }
+
+/*   =================================================================================       
+ Averaging
+ =================================================================================*/
+int averaged(int data){
+
+  
+  // subtract the last reading:
+    totalA = totalA - readingsA[indexA];         
+    // read from the sensor:  
+    readingsA[indexA] = data;
+    // add the reading to the total:
+    totalA = totalA + readingsA[indexA];       
+    // advance to the next position in the array:  
+    indexA = indexA + 1;                    
+
+    // if we're at the end of the array...
+    if (indexA >= numReadings) 
+    {
+        // ...wrap around to the beginning: 
+        indexA = 0;                           
+    }
+
+    // calculate the average:
+    averageA = totalA / numReadings;  
+    return averageA;
+}
+

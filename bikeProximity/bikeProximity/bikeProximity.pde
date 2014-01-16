@@ -64,15 +64,11 @@ void setup(){
 void draw() {
   // Arduino interface
   sensorData = arduino.analogRead(0);
+  println(sensorData);
   
   // Draw a black background on top of everything every frame. Acts as a clean slate
   background(0);
 
-  // Trigger senser read, if present
-  if( arduinoPort != null ) {
-    arduinoPort.write("A");
-  }
-  
 
   // camera
   if (camera.available() == true) {

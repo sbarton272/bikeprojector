@@ -5,7 +5,7 @@
 import processing.serial.*;
 import processing.video.*;
 
-boolean DEBUG = false;
+boolean DEBUG = true;
 int SerialPortNumber=2;
 int PortSelected=0;
 int BAUD = 9600;
@@ -16,7 +16,9 @@ int BAUD = 9600;
 
 int SENSER_THRESHOLD = 100;
 int sensorData = 0;
-int SELECTED_CAMERA = 115;
+int pSensorData = 0;
+int SELECTED_CAMERA = 0;
+float EASING = 0.15;
 
 /*   =================================================================================       
  Local variables
@@ -50,11 +52,6 @@ void draw() {
     arduinoPort.write("A");
   }
   
-  if (DEBUG) {
-    print( "#### Sensor Data" );
-    print( ", " + Integer.toString(sensorData) );
-    println();
-  }
 
   // camera
   if (camera.available() == true) {
@@ -63,29 +60,46 @@ void draw() {
 
   image(camera, 0, 0);
 
-  // distance based response
-  if ( objectDetected(sensorData) ) {
-    println("Object detected");
-    
-    detectionResponse();
+//  // distance based response
+//  if ( objectDetected(sensorData) ) {
+//    println("Object detected");
+//    
+//    detectionResponse();
+//
+//  } else if ( objectCaution(sensorData) ) {
+//    println("Object caution");
+//    
+//    cautionResponse();
+//
+//  } else if ( objectDanger(sensorData) ) {
+//    println("Object danger");
+//    
+//    dangerResponse();
+//
+//  } else {
+//    println("Object NOT detected");
+//    
+//    regularResponse();
+//
+//  }
 
-  } else if ( objectCaution(sensorData) ) {
-    println("Object caution");
-    
-    cautionResponse();
+// Proximity visualization
+pushStyle();
+pushMatrix();
+  ellipseMode(CENTER);
+  noFill();
+  stroke(255,0,0);
+  strokeWeight(20);
+  translate(width/2, height/2);
+  arc(0,0,700,700, PI*.75-radians(sensorData), PI*.75+radians(sensorData));
+popMatrix();
+popStyle();
 
-  } else if ( objectDanger(sensorData) ) {
-    println("Object danger");
-    
-    dangerResponse();
-
-  } else {
-    println("Object NOT detected");
-    
-    regularResponse();
-
+  if (DEBUG) {
+    print( "#### Sensor Data" );
+    print( ", " + Integer.toString(sensorData) );
+    println();
   }
-
 }
 
 /*   =================================================================================       
@@ -155,4 +169,13 @@ void CameraSetup() {
 
   camera = new Capture(this, cameras[SELECTED_CAMERA]);
   camera.start();   
+}
+
+void keyPressed() {
+  if (key == '+') {
+    sensorData += 25;
+  } else if (key == '-') {
+    sensorData -= 25;
+  }
+  
 }

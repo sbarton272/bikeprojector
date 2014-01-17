@@ -43,7 +43,7 @@ class BikeProximity {
   BikeProximity(PApplet parent, SensorData sensorData){
 
     this.sensorData = sensorData;
-    this.proximitySensor = sensorData.proximitySensor;
+    this.proximitySensor = (int)sensorData.proxData;
     this.parent = parent;
 
     cameraSetup();
@@ -64,8 +64,8 @@ class BikeProximity {
 
   void display() {
     // Data from arduino
-    proximitySensor = sensorData.proximitySensor;
-    
+    proximitySensor = (int)sensorData.proxData;
+    println(proximitySensor);
     // Draw a black background on top of everything every frame. Acts as a clean slate
     background(0);
 

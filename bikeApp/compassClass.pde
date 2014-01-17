@@ -1,10 +1,15 @@
-SensorData sensorData;
+
 
 class compassClass {
     PImage compass;
     float rotation, compassx, compassy;
     int compassheight, compasswidth, w, h;
+    SensorData sensorData;
     
+    
+   /*   =================================================================================       
+ constructor
+ =================================================================================*/
     compassClass(SensorData _sensorData, float x, float y, int w, int h) {
       sensorData = _sensorData;
       compassheight = w;
@@ -19,7 +24,7 @@ class compassClass {
     rotation = sensorData.compassVal;
     pushMatrix();
       rotate(radians(rotation));
-      image(compass, compassx-compasswidth, compassy-compassheight);
+      image(compass, compassx-compasswidth, compassy-compassheight, compasswidth, compassheight);
     popMatrix();
     
   }

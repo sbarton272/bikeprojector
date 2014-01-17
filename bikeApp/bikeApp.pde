@@ -6,6 +6,7 @@ BikeProximity bikeProximity;
 SensorData sensorData;
 
 void setup() {
+  size(960,720);
   
   sensorData = new SensorData();
   bikeProximity = new BikeProximity(this, sensorData);
@@ -13,5 +14,5 @@ void setup() {
 }
 
 void draw() {
-  
+  bikeProximity.display();
 }

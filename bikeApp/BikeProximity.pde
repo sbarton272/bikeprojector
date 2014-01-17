@@ -41,7 +41,6 @@ class BikeProximity {
    =================================================================================*/
 
   BikeProximity(PApplet parent, SensorData sensorData){
-    size(960,720);
 
     this.sensorData = sensorData;
     this.proximitySensor = sensorData.proximitySensor;

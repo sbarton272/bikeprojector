@@ -5,7 +5,7 @@ import cc.arduino.*;
 import processing.video.*;
 import ddf.minim.*;
 
-class BikeProximity() {
+class BikeProximity {
   /*   =================================================================================       
    Constants
    =================================================================================*/
@@ -15,6 +15,7 @@ class BikeProximity() {
   int SENSOR_DETECT = 100;
   int SENSOR_CAUTION = 50;
   int SENSOR_DANGER = 30;
+  int SENSOR_MAX = 500;
 
   int SELECTED_CAMERA = 0;
   int PORT_SELECTED=0;
@@ -30,6 +31,7 @@ class BikeProximity() {
   AudioPlayer dangerSiren, warningBeep;
   AudioInput input;
   SensorData sensorData;
+  PApplet parent;
   float arcValue = 0;
   int proximitySensor;
 
@@ -38,11 +40,12 @@ class BikeProximity() {
    Setup
    =================================================================================*/
 
-  void BikeProximity(SensorData sensorData){
+  BikeProximity(PApplet parent, SensorData sensorData){
     size(960,720);
 
     this.sensorData = sensorData;
     this.proximitySensor = sensorData.proximitySensor;
+    this.parent = parent;
 
     cameraSetup();
     audioSetup();
@@ -62,9 +65,7 @@ class BikeProximity() {
 
   void display() {
     // Data from arduino
-    if( sensorData.proximitySensor ) {
-      proximitySensor = sensorData.proximitySensor;
-    }
+    proximitySensor = sensorData.proximitySensor;
     
     // Draw a black background on top of everything every frame. Acts as a clean slate
     background(0);
@@ -125,7 +126,6 @@ class BikeProximity() {
 
     if (DEBUG) {
       print( "#### Sensor Data" );
-      print( ", " + Integer.toString(sensorRaw) );
       print(", " + "Averaged Data: " + Integer.toString(proximitySensor));
       println();
     }
@@ -167,7 +167,7 @@ class BikeProximity() {
       }
     } 
 
-    camera = new Capture(this, cameras[SELECTED_CAMERA]);
+    camera = new Capture(parent, cameras[SELECTED_CAMERA]);
     camera.start();   
   }
 
@@ -177,7 +177,7 @@ class BikeProximity() {
 
 
   void audioSetup() {
-    minim = new Minim(this);
+    minim = new Minim(parent);
     dangerSiren = minim.loadFile("siren.mp3");
     warningBeep = minim.loadFile("beep.mp3");
 

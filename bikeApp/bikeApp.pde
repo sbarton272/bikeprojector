@@ -8,7 +8,7 @@ SensorData sensorData;
 void setup() {
   
   sensorData = new SensorData();
-  bikeProximity = new BikeProximity(sensorData);
+  bikeProximity = new BikeProximity(this, sensorData);
   
 }
 

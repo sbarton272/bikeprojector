@@ -1,3 +1,8 @@
+// The Nature of Code
+import pbox2d.*;
+import org.jbox2d.collision.shapes.*;
+import org.jbox2d.common.*;
+import org.jbox2d.dynamics.*;
 
 // Main application
 
@@ -20,6 +25,7 @@ void setup() {
 
 void draw() {
   sensorData.update();                //update the sensors
+
 
   println( "STATE: " + sensorData.stateVal );
   

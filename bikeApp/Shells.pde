@@ -42,9 +42,6 @@ class Shells {
       shells[i].display();
     }
 
-    if (millis() - lastMillis > 200)
-      debounced = true;
-
     if (debounced && launchBtn == 5) { //if the button is pressed
       //search for the shell in front of me
       int aux = 0;

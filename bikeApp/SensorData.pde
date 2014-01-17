@@ -159,7 +159,6 @@ void oscEvent(OscMessage theOscMessage) {
   }
  else if (theOscMessage.checkAddrPattern("/gyrosc/button") ==true)
   {
-    print("|||||||");  
     if(theOscMessage.get(1).intValue() == 1){
       stateVal = theOscMessage.get(0).intValue();
     }   

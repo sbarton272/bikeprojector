@@ -55,7 +55,6 @@ void draw() {
   	default:
 	  	bikeProximity.cleanup();
   		shells.cleanup();
-  		compass.display();
   		break;
   }
 

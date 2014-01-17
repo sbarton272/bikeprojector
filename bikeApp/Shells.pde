@@ -43,7 +43,7 @@ class Shells {
     if (millis() - lastMillis > 200)
       debounced = true;
 
-    if (debounced && sensorData.shellButton == 1) { //if the button is pressed
+    if (debounced && sensorData.stateVal == 8) { //if the button is pressed
       //search for the shell in front of me
       int aux = 0;
       int min = 10000;

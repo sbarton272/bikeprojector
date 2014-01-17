@@ -54,7 +54,7 @@ void draw() {
     //shells.cleanup();
     bikeProximity.display();
     break;
-  case 7:
+  case 4:
     //bikeProximity.cleanup();
     //shells.cleanup();
     compass.display();

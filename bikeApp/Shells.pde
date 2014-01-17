@@ -42,7 +42,7 @@ class Shells {
       shells[i].display();
     }
 
-    if (debounced && launchBtn == 8) { //if the button is pressed
+    if (debounced && launchBtn == 5) { //if the button is pressed
       //search for the shell in front of me
       int aux = 0;
       int min = 10000;

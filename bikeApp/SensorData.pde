@@ -116,8 +116,6 @@ class SensorData {
    =================================================================================*/
   void oscEvent(OscMessage theOscMessage) {
 
-
-
     //--------------------------get accel vals --------------------------------------------
     if (theOscMessage.checkAddrPattern("/gyrosc/accel") == true) 
     {

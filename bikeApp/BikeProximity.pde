@@ -74,7 +74,7 @@ class BikeProximity {
       camera.read();
     }
 
-    image(camera, 0, 0);
+    image(camera, 0, 0, width, height);
 
     // distance based response
     if ( objectDanger(proximitySensor) ) {

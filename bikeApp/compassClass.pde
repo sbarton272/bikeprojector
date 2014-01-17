@@ -1,9 +1,8 @@
-SensorData sensorData;
-
 class compassClass {
     PImage compass;
     float rotation, compassx, compassy;
     int compassheight, compasswidth, w, h;
+    SensorData sensorData;
     
     compassClass(SensorData _sensorData, float x, float y, int w, int h) {
       sensorData = _sensorData;

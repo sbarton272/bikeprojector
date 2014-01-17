@@ -1,13 +1,11 @@
 // Car Proximity Detection
-// Output video if car too close
-// Code for serial started from https://github.com/Illutron/AdvancedTouchSensing
 
 import processing.serial.*;
 import cc.arduino.*;
 import processing.video.*;
 import ddf.minim.*;
 
-class bikeProximity() {
+class BikeProximity() {
   /*   =================================================================================       
    Constants
    =================================================================================*/
@@ -19,10 +17,8 @@ class bikeProximity() {
   int SENSOR_DANGER = 30;
 
   int SELECTED_CAMERA = 0;
-  int SERIAL_PORT_NUMBER=2;
   int PORT_SELECTED=0;
-  int AUDIO_BUF_SIZE = 512;
-  int SENSER_THRESHOLD = 100;
+
   float EASING = 0.15;
 
   /*   =================================================================================       
@@ -42,7 +38,7 @@ class bikeProximity() {
    Setup
    =================================================================================*/
 
-  void bikeProximity(SensorData sensorData){
+  void BikeProximity(SensorData sensorData){
     size(960,720);
 
     this.sensorData = sensorData;

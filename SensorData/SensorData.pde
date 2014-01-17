@@ -3,6 +3,9 @@ import oscP5.*;
 import netP5.*;
 import cc.arduino.*;
 
+
+class SensorData{
+
 // Global variables for anyone to access
 float accelX, accelY, accelZ, compassVal, rotVal, proxData;
 
@@ -23,7 +26,7 @@ float[] rotationVals = new float[16];
 
 /////////////////////////////////////////////////////////////////
 //////        set to false when running as a class //////////////
-boolean DEBUG = true;
+boolean DEBUG = false;
 PFont f;
 
 /*   =================================================================================       
@@ -36,7 +39,7 @@ Arduino arduino;
 /*   =================================================================================       
  Setup
  =================================================================================*/
-void setup(){
+void Sensordata(){
   if(DEBUG)
   {
     size(400,600);
@@ -181,4 +184,6 @@ int averaged(int data){
     // calculate the average:
     averageA = totalA / numReadings;  
     return averageA;
+}
+
 }

@@ -3,11 +3,14 @@ import oscP5.*;
 import netP5.*;
 import cc.arduino.*;
 
-
+ /*   =================================================================================       
+   constructor
+   =================================================================================*/
 class SensorData{
 
 // Global variables for anyone to access
 float accelX, accelY, accelZ, compassVal, rotVal, proxData;
+int stateVal, int shellButton;
 
 //worker variables
 float PaccelX, PaccelY, PaccelZ, RawAccelX, RawAccelY, RawAccelZ;
@@ -44,6 +47,8 @@ PApplet parent;
  =================================================================================*/
  SensorData(PApplet thisParent){
   parent = thisParent;
+  stateVal = 1;
+  shellButton = 0;
   
   if(DEBUG)
   {
@@ -97,6 +102,8 @@ void update(){
   //-------------------------update proxData values-------------------------------
   int sensorRaw = arduino.analogRead(0);
   proxData = averaged(sensorRaw);
+  shellButton = arduino.digitalRead(5);
+  
   
   
 }
@@ -108,7 +115,7 @@ void update(){
  =================================================================================*/
 void oscEvent(OscMessage theOscMessage) {
   
-  
+
   
   //--------------------------get accel vals --------------------------------------------
   if (theOscMessage.checkAddrPattern("/gyrosc/accel") == true) 
@@ -146,7 +153,14 @@ void oscEvent(OscMessage theOscMessage) {
       } 
       rotVal = rotationVals[3];
     }  
+  }
+ else if (theOscMessage.checkAddrPattern("/gyrosc/button") ==true)
+  {
+    if(theOscMessage.get(1).intValue() == 1){
+      stateVal = theOscMessage.get(0).intValue();
+    }   
   } 
+
 }
 
 

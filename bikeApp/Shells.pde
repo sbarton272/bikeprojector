@@ -1,21 +1,37 @@
+import ddf.minim.*;
+
 class Shells {
+  Minim minim;
+  AudioPlayer song;
+  PApplet parent;
+
   boolean debounced = true;
   int lastMillis = 0;
 
   Shell[] shells;
   SensorData sensorData;
 
-  Shells (SensorData _sensorData) {
+  Shells (PApplet parent, SensorData _sensorData) {
     sensorData = _sensorData;
-    
+    this.parent = parent;
+
     shells = new Shell[3];
 
     shells[0] = new Shell(1, 0);
     shells[1] = new Shell(2, 2*PI*2/3);
     shells[2] = new Shell(3, PI*2/3);
+
+    minim = new Minim(parent);
+
+    // this loads mysong.wav from the data folder
+    song = minim.loadFile("mario_kart_song.mp3");
+    song.play();
+    song.loop();
+    song.mute();
   }
 
   void display() {
+    song.unmute();
     background(255);
 
     // Move reference point to the center of the screen to make things easy
@@ -45,6 +61,10 @@ class Shells {
       lastMillis = millis();
       debounced = false;
     }
+  }
+
+  void cleanup () {
+    song.mute();
   }
 
   class Shell {
@@ -100,3 +120,4 @@ class Shells {
     }
   }
 }
+

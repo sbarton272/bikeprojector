@@ -17,14 +17,36 @@ void setup() {
   size(960,720);
   
   sensorData = new SensorData(this);
-  //bikeProximity = new BikeProximity(this, sensorData);
-  //compass = new compassClass(sensorData, 10,10,100, 100);
-  bikeStack = new bikeStackClass(this, sensorData);
+
+
+  bikeProximity = new BikeProximity(this, sensorData);
+  compass = new compassClass(sensorData, 10,10, 30, 30);
+  shells = new Shells(this, sensorData);
 }
 
 void draw() {
   sensorData.update();                //update the sensors
-  //bikeProximity.display();            //show the bikeProximity
-  //compass.display();
-  bikeStack.display();
+
+
+  println( "STATE: " + sensorData.stateVal );
+  
+  switch( sensorData.stateVal ) {
+  	case 1:
+
+  		break;
+  	case 2:
+  		shells.display();
+  		break;
+  	case 3:
+  		bikeProximity.display();
+  		break;
+  	case 4:
+  		compass.display();
+  		break;
+  	default:
+  		compass.display();
+  		break;
+  }
+
+  shells.cleanup();
 }

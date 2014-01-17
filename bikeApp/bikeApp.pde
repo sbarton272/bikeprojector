@@ -17,12 +17,12 @@ Shells shells;
 bikeStackClass stackGame;
 
 void setup() {
-  size(960,720);
+  size(displayWidth, displayHeight);
     minim = new Minim(this);
 
   sensorData = new SensorData(this);
   bikeProximity = new BikeProximity(this, sensorData);
-  compass = new compassClass(sensorData, 150, 150, 300, 300);
+  compass = new compassClass(sensorData, (height-50)/2, (height-50)/2, (height-50), (height-50));
   shells = new Shells(this, sensorData);
   stackGame = new bikeStackClass(this, sensorData);
 }

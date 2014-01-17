@@ -56,7 +56,7 @@ Vec2 getY() {
     pushMatrix();
     translate(pos.x, pos.y);
     rotate(-a);
-    fill(175);
+    fill(225);
     stroke(0);
     rect(0, 0, w, h);
     popMatrix();

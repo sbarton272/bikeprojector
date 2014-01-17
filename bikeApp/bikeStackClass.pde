@@ -32,14 +32,12 @@ class bikeStackClass {
     boundaries = new ArrayList<Boundary>();
 
     // Add a bunch of fixed boundaries
-    boundaries.add(new Boundary(0, 0, 5, width));
-    boundaries.add(new Boundary(width, 0, 5, width));
     boundaries.add(new Boundary(width/2, height-100, 200, 5));
 
     mapval = 20;
     ticker = 0;
     interval = 50;
-    boxSize=60;
+    boxSize=100;
     boxNum=2;
     score=0;
 
@@ -47,16 +45,27 @@ class bikeStackClass {
   }
 
   void display() {
+    background(0);
+    
+    for (Boundary wall: boundaries) {
+      wall.display();
+    }
+    
+    box2d.setGravity(sensorData.rotVal*5, -25);
+    
+    
+    pushMatrix();
+      textSize(46);
+      fill(255, 255, 255);
+      text("Score:" + score, 10, height-50);
+      text("Stack 'em!", (width/2)-120, height-50);
+    popMatrix();
 
-    box2d.setGravity(sensorData.rotVal*5, -5);
-    background(255);
-    textSize(46);
-    text("Score:" + score, 10, height-10);
 
     box2d.step();
 
     if (ticker > interval) {
-      Box p = new Box(width/2, height-(boxSize*boxNum)-50, boxSize);
+      Box p = new Box(width/2, height-(boxSize*boxNum)-5, boxSize);
       boxes.add(p);
       ticker=0;
       boxNum++;

@@ -30,7 +30,7 @@ class Shells {
 
   void display() {
     song.unmute();
-    background(255);
+    background(0);
 
     // Move reference point to the center of the screen to make things easy
     //translate(width/2, height/2);
@@ -82,7 +82,7 @@ class Shells {
     Shell (int id, float angle) {
       this.id = id;
       offsetAngle = angle;
-      img = loadImage("shell.jpg");
+      img = loadImage("shell.gif");
     }
 
     void move() {

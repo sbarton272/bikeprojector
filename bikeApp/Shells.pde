@@ -22,7 +22,7 @@ class Shells {
     minim = new Minim(this);
 
     // this loads mysong.wav from the data folder
-    song = minim.loadFile("mario_kart_song.mp3");
+    song = minim.loadFile("./data/mario_kart_song.mp3");
     song.play();
     song.loop();
     song.mute();
@@ -59,6 +59,9 @@ class Shells {
       lastMillis = millis();
       debounced = false;
     }
+  }
+
+  void cleanup () {
     song.mute();
   }
 

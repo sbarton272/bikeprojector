@@ -6,15 +6,16 @@ BikeProximity bikeProximity;
 SensorData sensorData;
 compassClass compass;
 Shells shells;
+bikeStackClass stackGame;
 
 void setup() {
   size(960,720);
   
   sensorData = new SensorData(this);
-
   bikeProximity = new BikeProximity(this, sensorData);
   compass = new compassClass(sensorData, 10,10, 30, 30);
   shells = new Shells(this, sensorData);
+  stackGame = new bikeStackClass(this, sensorData);
 }
 
 void draw() {
@@ -24,7 +25,7 @@ void draw() {
   
   switch( sensorData.stateVal ) {
   	case 1:
-
+  		stackGame.display();
   		break;
   	case 2:
   		shells.display();

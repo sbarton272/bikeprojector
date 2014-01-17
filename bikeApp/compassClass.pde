@@ -1,6 +1,6 @@
 class compassClass {
     PImage compass;
-    float rotation, compassx, compassy;
+    float rotation, compassx, compassy, oldrotation;
     int compassheight, compasswidth, w, h;
     SensorData sensorData;
     
@@ -18,8 +18,11 @@ class compassClass {
   
   // This is called about 60 times a second
   void display(){
-    rotation = sensorData.compassVal;
+    background(0);
+    oldrotation = rotation;
+    rotation = (sensorData.compassVal+ (.15*oldrotation));
     pushMatrix();
+      translate(width/2, height/2);
       rotate(radians(rotation));
       image(compass, compassx-compasswidth, compassy-compassheight, compasswidth, compassheight);
     popMatrix();

@@ -18,7 +18,7 @@ void setup() {
   
   sensorData = new SensorData(this);
   bikeProximity = new BikeProximity(this, sensorData);
-  compass = new compassClass(sensorData, 10,10, 30, 30);
+  compass = new compassClass(sensorData, 150, 150, 300, 300);
   shells = new Shells(this, sensorData);
   stackGame = new bikeStackClass(this, sensorData);
 }

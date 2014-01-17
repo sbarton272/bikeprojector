@@ -11,7 +11,6 @@ class SensorData{
 // Global variables for anyone to access
 float accelX, accelY, accelZ, compassVal, rotVal, proxData;
 int stateVal;
-int shellButton;
 
 //worker variables
 float PaccelX, PaccelY, PaccelZ, RawAccelX, RawAccelY, RawAccelZ;

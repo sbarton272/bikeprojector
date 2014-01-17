@@ -17,8 +17,8 @@ Shells shells;
 bikeStackClass stackGame;
 
 void setup() {
-  size(960,720);
-    minim = new Minim(this);
+  size(960, 720);
+  minim = new Minim(this);
 
   sensorData = new SensorData(this);
   bikeProximity = new BikeProximity(this, sensorData);
@@ -32,30 +32,35 @@ void draw() {
 
 
   println( "STATE: " + sensorData.stateVal );
-  
-  switch( sensorData.stateVal ) {
-  	case 1:
-  		shells.cleanup();
-  		bikeProximity.cleanup();
-  		stackGame.display();
-  		break;
-  	case 2:
-	  	bikeProximity.cleanup();
-  		shells.display();
-  		break;
-  	case 3:
-  		shells.cleanup();
-  		bikeProximity.display();
-  		break;
-   case 7:
-	   bikeProximity.cleanup();
-   		shells.cleanup();
-  		compass.display();
-  		break;
-  	default:
-	  	bikeProximity.cleanup();
-  		shells.cleanup();
-  		break;
+
+  if (sensorData.stateChange) {
+    shells.cleanup();
+    bikeProximity.cleanup();
   }
 
+  switch( sensorData.stateVal ) {
+  case 1:
+    //shells.cleanup();
+    //bikeProximity.cleanup();
+    stackGame.display();
+    break;
+  case 2:
+    //bikeProximity.cleanup();
+    shells.display();
+    break;
+  case 3:
+    //shells.cleanup();
+    bikeProximity.display();
+    break;
+  case 7:
+    //bikeProximity.cleanup();
+    //shells.cleanup();
+    compass.display();
+    break;
+  default:
+    //bikeProximity.cleanup();
+    //shells.cleanup();
+    break;
+  }
 }
+

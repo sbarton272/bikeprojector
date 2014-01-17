@@ -16,7 +16,7 @@ class BikeProximity {
   int SENSOR_DANGER = 30;
   int SENSOR_MAX = 500;
 
-  int SELECTED_CAMERA = 0;
+  int SELECTED_CAMERA = 115;
   int PORT_SELECTED=0;
 
   float EASING = 0.15;

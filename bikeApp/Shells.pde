@@ -5,6 +5,7 @@ class Shells {
 
   boolean debounced = true;
   int lastMillis = 0;
+  int launchBtn = 0;
 
   Shell[] shells;
   SensorData sensorData;
@@ -31,6 +32,7 @@ class Shells {
   void display() {
     song.unmute();
     background(0);
+    launchBtn = sensorData.stateVal;
 
     // Move reference point to the center of the screen to make things easy
     //translate(width/2, height/2);
@@ -40,10 +42,7 @@ class Shells {
       shells[i].display();
     }
 
-    if (millis() - lastMillis > 200)
-      debounced = true;
-
-    if (debounced && sensorData.stateVal == 8) { //if the button is pressed
+    if (debounced && launchBtn == 8) { //if the button is pressed
       //search for the shell in front of me
       int aux = 0;
       int min = 10000;

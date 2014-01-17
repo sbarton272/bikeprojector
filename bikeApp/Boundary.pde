@@ -1,9 +1,9 @@
 // The Nature of Code
-// <http://www.shiffman.net/teaching/nature>
-// Spring 2012
-// PBox2D example
+import pbox2d.*;
+import org.jbox2d.collision.shapes.*;
+import org.jbox2d.common.*;
+import org.jbox2d.dynamics.*;
 
-// A fixed boundary class
 
 class Boundary {
 

@@ -27,8 +27,9 @@ class BikeProximity {
    =================================================================================*/
 
   Capture camera;
-  Minim minim;
+  Minim minim, danger;
   AudioPlayer dangerSiren, warningBeep;
+  
   AudioInput input;
   SensorData sensorData;
   PApplet parent;
@@ -41,7 +42,7 @@ class BikeProximity {
    =================================================================================*/
 
   BikeProximity(PApplet parent, SensorData sensorData){
-
+    danger = new Minim(parent);
     this.sensorData = sensorData;
     this.proximitySensor = (int)sensorData.proxData;
     this.parent = parent;

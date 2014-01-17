@@ -108,10 +108,7 @@ void update(){
  =================================================================================*/
 void oscEvent(OscMessage theOscMessage) {
   
-  // Debug information
-  print("### received an osc message.");
-  print(" addrpattern: "+theOscMessage.addrPattern());
-  println(" typetag: "+theOscMessage.typetag());
+  
   
   //--------------------------get accel vals --------------------------------------------
   if (theOscMessage.checkAddrPattern("/gyrosc/accel") == true) 
@@ -140,7 +137,7 @@ void oscEvent(OscMessage theOscMessage) {
   //------------------------get rotVal---------------------------------------
   else if (theOscMessage.checkAddrPattern("/gyrosc/rmatrix") == true) 
   {
-    int rotationMapVal =  2;
+    int rotationMapVal =  20;
     // Check to see if the OscMessage contains the right amount of values. Eg. fff means 3 float values
     if (theOscMessage.checkTypetag("fffffffff")) {
       //maps each item in the rotation matrix between two values

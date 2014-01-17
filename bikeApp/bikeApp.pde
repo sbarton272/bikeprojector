@@ -1,3 +1,8 @@
+// The Nature of Code
+import pbox2d.*;
+import org.jbox2d.collision.shapes.*;
+import org.jbox2d.common.*;
+import org.jbox2d.dynamics.*;
 
 // Main application
 
@@ -6,6 +11,7 @@ BikeProximity bikeProximity;
 SensorData sensorData;
 compassClass compass;
 Shells shells;
+bikeStackClass bikeStack;
 
 void setup() {
   size(960,720);
@@ -13,12 +19,12 @@ void setup() {
   sensorData = new SensorData(this);
   //bikeProximity = new BikeProximity(this, sensorData);
   //compass = new compassClass(sensorData, 10,10,100, 100);
-  shells = new Shells(sensorData);
+  bikeStack = new bikeStackClass(this, sensorData);
 }
 
 void draw() {
   sensorData.update();                //update the sensors
   //bikeProximity.display();            //show the bikeProximity
   //compass.display();
-  shells.display();                 //show the shells game concept
+  bikeStack.display();
 }

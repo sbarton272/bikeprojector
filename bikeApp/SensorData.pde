@@ -16,6 +16,7 @@ int stateVal, int shellButton;
 float PaccelX, PaccelY, PaccelZ, RawAccelX, RawAccelY, RawAccelZ;
 float smooth; ;
 int smoothedProxData;
+int shellButton;
 
 
 int numReadings = 20;
@@ -75,8 +76,7 @@ PApplet parent;
   println(Arduino.list());
   if(Arduino.list()!=null){
     arduino = new Arduino(parent, Arduino.list()[0], 57600);
-    arduino.pinMode(2, Arduino.INPUT);
-    
+    arduino.pinMode(2, Arduino.INPUT); //button for Shells app
   }
 }
 

@@ -5,6 +5,7 @@
 BikeProximity bikeProximity;
 SensorData sensorData;
 compassClass compass;
+Shells shells;
 
 void setup() {
   size(960,720);
@@ -12,7 +13,7 @@ void setup() {
   sensorData = new SensorData(this);
   bikeProximity = new BikeProximity(this, sensorData);
   compass = new compassClass(sensorData, 10,10, 30, 30);
-  
+  shells = new Shells(sensorData);
 }
 
 void draw() {
@@ -20,4 +21,5 @@ void draw() {
   bikeProximity.display();            //show the bikeProximity
   compass.display();
   
+  shells.display();                 //show the shells game concept
 }

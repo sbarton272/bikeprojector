@@ -1,11 +1,8 @@
-
-
 class compassClass {
     PImage compass;
     float rotation, compassx, compassy;
     int compassheight, compasswidth, w, h;
     SensorData sensorData;
-    
     
    /*   =================================================================================       
  constructor

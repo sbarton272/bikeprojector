@@ -107,7 +107,6 @@ class SensorData {
     //-------------------------update proxData values-------------------------------
     int sensorRaw = arduino.analogRead(0);
     proxData = averaged(sensorRaw);
-    shellButton = arduino.digitalRead(5);
   }
 
 
@@ -156,16 +155,25 @@ class SensorData {
         rotVal = rotationVals[3];
       }
     }
+    //read numbers from gyrOSC keypad
     else if (theOscMessage.checkAddrPattern("/gyrosc/button") ==true)
     {
-      if (theOscMessage.get(1).intValue() == 1) {
-        stateVal = theOscMessage.get(0).intValue();
-        if (stateVal != pastState) {
-          pastState = stateVal;
-          stateChange = true;
-        } 
-        else
-          stateChange = false;
+      //if the number is less than 6, it is a state change
+      if(theOscMessage.get(0).intValue() < 6)
+      {
+        if (theOscMessage.get(1).intValue() == 1) {
+          stateVal = theOscMessage.get(0).intValue();
+          if (stateVal != pastState) {
+            pastState = stateVal;
+            stateChange = true;
+          } 
+          else
+            stateChange = false;
+        }
+      }
+      else if (theOscMessage.get(0).intValue() == 9)
+      {
+        shellButton = theOscMessage.get(1).intValue();
       }
     }
   }

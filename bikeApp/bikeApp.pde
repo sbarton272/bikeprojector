@@ -17,13 +17,10 @@ Shells shells;
 bikeStackClass stackGame;
 
 void setup() {
-<<<<<<< HEAD
+
   size(displayWidth, displayHeight);
     minim = new Minim(this);
-=======
-  size(960, 720);
-  minim = new Minim(this);
->>>>>>> f4c1e6111399b7cea585a29c964b40f079489058
+
 
   sensorData = new SensorData(this);
   bikeProximity = new BikeProximity(this, sensorData);

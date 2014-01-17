@@ -3,7 +3,6 @@
 import processing.serial.*;
 import cc.arduino.*;
 import processing.video.*;
-import ddf.minim.*;
 
 class BikeProximity {
   /*   =================================================================================       
@@ -109,7 +108,7 @@ class BikeProximity {
   pushMatrix();
 
     arcValue += ((float)proximitySensor-arcValue) * EASING;
-    float arcSize = map(arcValue, 0, SENSOR_MAX, 180, 0);
+    float arcSize = map(arcValue, 0, 200, 180, 0);
     ellipseMode(CENTER);
     noFill();
     color from = color(0,255,0);
@@ -119,7 +118,7 @@ class BikeProximity {
     strokeWeight(20);
     strokeCap(SQUARE);
     translate(width/2, height/2);
-    arc(0,0,700,700, PI*.75-radians(arcSize), PI*.75+radians(arcSize));
+    arc(0,0,700,700, PI*.5-radians(arcSize), PI*.5+radians(arcSize));
 
   popMatrix();
   popStyle();
@@ -193,6 +192,12 @@ class BikeProximity {
       proximitySensor -= 25;
     }
     
+  }
+  
+  // Cleanup Method
+  void cleanup() {
+    dangerSiren.mute();
+    warningBeep.mute();
   }
 
 }

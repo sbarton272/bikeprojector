@@ -1,7 +1,5 @@
-import ddf.minim.*;
 
 class Shells {
-  Minim minim;
   AudioPlayer song;
   PApplet parent;
 

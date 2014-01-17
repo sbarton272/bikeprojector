@@ -3,6 +3,7 @@ import ddf.minim.*;
 class Shells {
   Minim minim;
   AudioPlayer song;
+  PApplet parent;
 
   boolean debounced = true;
   int lastMillis = 0;
@@ -10,8 +11,9 @@ class Shells {
   Shell[] shells;
   SensorData sensorData;
 
-  Shells (SensorData _sensorData) {
+  Shells (PApplet parent, SensorData _sensorData) {
     sensorData = _sensorData;
+    this.parent = parent;
 
     shells = new Shell[3];
 
@@ -19,10 +21,10 @@ class Shells {
     shells[1] = new Shell(2, 2*PI*2/3);
     shells[2] = new Shell(3, PI*2/3);
 
-    minim = new Minim(this);
+    minim = new Minim(parent);
 
     // this loads mysong.wav from the data folder
-    song = minim.loadFile("./data/mario_kart_song.mp3");
+    song = minim.loadFile("mario_kart_song.mp3");
     song.play();
     song.loop();
     song.mute();

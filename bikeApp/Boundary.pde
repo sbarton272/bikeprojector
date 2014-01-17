@@ -4,7 +4,6 @@ import org.jbox2d.collision.shapes.*;
 import org.jbox2d.common.*;
 import org.jbox2d.dynamics.*;
 
-
 class Boundary {
 
   // A boundary is a simple rectangle with x,y,width,and height
